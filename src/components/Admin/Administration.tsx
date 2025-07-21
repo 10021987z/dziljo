@@ -10,7 +10,6 @@ import QuickActions from '../Layout/QuickActions';
 import TemplateLibrary from './TemplateLibrary';
 import DocumentGenerator from './DocumentGenerator';
 import WorkflowManagement from './WorkflowManagement';
-import AnalyticalAccounting from './AnalyticalAccounting';
 
 const Administration: React.FC = () => {
   const [activeTab, setActiveTab] = useState('contracts');
@@ -26,7 +25,6 @@ const Administration: React.FC = () => {
     { id: 'admin-users', name: 'Utilisateurs Admin', icon: UserCheck },
     { id: 'integrations', name: 'Intégrations CRM', icon: Link },
     { id: 'workflows', name: 'Workflows', icon: Workflow },
-    { id: 'analytical', name: 'Comptabilité Analytique', icon: Layers },
     { id: 'settings', name: 'Paramètres', icon: Settings }
   ];
 
@@ -50,8 +48,6 @@ const Administration: React.FC = () => {
         return <CRMIntegrations />;
       case 'workflows':
         return <WorkflowManagement />;
-      case 'analytical':
-        return <AnalyticalAccounting />;
       case 'settings':
         return (
           <div className="p-6">

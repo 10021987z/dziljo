@@ -5,6 +5,7 @@ import Dashboard from './components/Dashboard/Dashboard';
 import HR from './components/HR/HR';
 import Commercial from './components/Commercial/Commercial';
 import Administration from './components/Admin/Administration';
+import AnalyticalAccounting from './components/AnalyticalAccounting/AnalyticalAccounting';
 import FloatingActionButton from './components/Layout/FloatingActionButton';
 import FirebaseSync from './components/Firebase/FirebaseSync';
 
@@ -25,6 +26,8 @@ function App() {
       case 'opportunities':
       case 'calendar':
         return <Commercial />;
+      case 'analytical':
+        return <AnalyticalAccounting />;
       case 'admin':
       case 'contracts':
       case 'invoicing':

@@ -30,6 +30,11 @@ const Sidebar: React.FC<SidebarProps> = ({ activeModule, setActiveModule }) => {
       ]
     },
     { 
+      id: 'analytical', 
+      name: 'Comptabilité Analytique', 
+      icon: BarChart3
+    },
+    { 
       id: 'admin', 
       name: 'Administration', 
       icon: Settings,
