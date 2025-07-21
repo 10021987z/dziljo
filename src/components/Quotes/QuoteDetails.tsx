@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Edit, Send, Download, Copy, CheckCircle, Clock, AlertTriangle, Eye, FileText, User, Mail, Phone, MapPin, Calendar, DollarSign, TrendingUp, Signature } from 'lucide-react';
+import { X, Edit, Send, Download, Copy, CheckCircle, Clock, AlertTriangle, Eye, FileText, User, Mail, Phone, MapPin, Calendar, DollarSign, TrendingUp, FileSignature as Signature } from 'lucide-react';
 
 interface QuoteDetailsProps {
   quote: any;
