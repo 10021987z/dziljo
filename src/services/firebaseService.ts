@@ -30,6 +30,7 @@ export class FirebaseService {
     OPPORTUNITIES: 'opportunities',
     CONTRACTS: 'contracts',
     QUOTES: 'quotes',
+    QUOTES: 'quotes',
     DOCUMENTS: 'documents',
     ACTIVITIES: 'activities',
     NOTIFICATIONS: 'notifications'
