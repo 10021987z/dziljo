@@ -4,6 +4,7 @@ import {
   Building, CreditCard, FileText, Upload, Check, AlertCircle, 
   ChevronRight, ChevronLeft, User, Heart, Shield, DollarSign
 } from 'lucide-react';
+import { useFirebaseCollection } from '../../hooks/useFirebase';
 
 interface NewEmployeeFormProps {
   isOpen: boolean;
@@ -60,6 +61,8 @@ const NewEmployeeForm: React.FC<NewEmployeeFormProps> = ({ isOpen, onClose, onSa
   const [errors, setErrors] = useState<{[key: string]: string}>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+
+  const { create: createEmployee } = useFirebaseCollection('employees');
 
   const departments = [
     'Technique', 'Commercial', 'Marketing', 'Ressources Humaines', 
@@ -145,23 +148,35 @@ const NewEmployeeForm: React.FC<NewEmployeeFormProps> = ({ isOpen, onClose, onSa
     setCurrentStep(prev => prev - 1);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (validateStep(currentStep)) {
       setIsSubmitting(true);
       
-      // Simulate API call
-      setTimeout(() => {
+      try {
+        const employeeData = {
+          ...formData,
+          employeeId: `EMP${Date.now()}`,
+          status: 'active',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        };
+
+        await createEmployee(employeeData);
+        
         setIsSubmitting(false);
         setShowSuccessMessage(true);
         
         // Reset form after success
         setTimeout(() => {
-          if (onSave) onSave(formData);
+          if (onSave) onSave(employeeData);
           setShowSuccessMessage(false);
           onClose();
           resetForm();
         }, 2000);
-      }, 1500);
+      } catch (error) {
+        console.error('Erreur lors de la création de l\'employé:', error);
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -409,39 +424,6 @@ const NewEmployeeForm: React.FC<NewEmployeeFormProps> = ({ isOpen, onClose, onSa
                         <option value="prefer_not_to_say">Préfère ne pas préciser</option>
                       </select>
                     </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-2">
-                        Nationalité
-                      </label>
-                      <input
-                        type="text"
-                        name="nationality"
-                        value={formData.nationality}
-                        onChange={handleChange}
-                        className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        placeholder="Nationalité"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-2">
-                        Situation Familiale
-                      </label>
-                      <select
-                        name="maritalStatus"
-                        value={formData.maritalStatus}
-                        onChange={handleChange}
-                        className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      >
-                        <option value="">Sélectionner</option>
-                        <option value="single">Célibataire</option>
-                        <option value="married">Marié(e)</option>
-                        <option value="divorced">Divorcé(e)</option>
-                        <option value="widowed">Veuf/Veuve</option>
-                        <option value="pacs">Pacsé(e)</option>
-                      </select>
-                    </div>
                   </div>
 
                   <div>
@@ -665,20 +647,6 @@ const NewEmployeeForm: React.FC<NewEmployeeFormProps> = ({ isOpen, onClose, onSa
                       />
                     </div>
                   </div>
-
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                    <div className="flex items-start space-x-3">
-                      <div className="bg-blue-100 p-2 rounded-full">
-                        <Briefcase className="w-5 h-5 text-blue-600" />
-                      </div>
-                      <div>
-                        <h3 className="font-medium text-blue-900">Informations Professionnelles</h3>
-                        <p className="text-sm text-blue-700 mt-1">
-                          Ces informations seront utilisées pour configurer l'accès de l'employé aux systèmes et définir sa position dans l'organigramme de l'entreprise.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               )}
 
@@ -777,20 +745,6 @@ const NewEmployeeForm: React.FC<NewEmployeeFormProps> = ({ isOpen, onClose, onSa
                     </div>
                   </div>
 
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                    <div className="flex items-start space-x-3">
-                      <div className="bg-green-100 p-2 rounded-full">
-                        <Shield className="w-5 h-5 text-green-600" />
-                      </div>
-                      <div>
-                        <h3 className="font-medium text-green-900">Sécurité des Données</h3>
-                        <p className="text-sm text-green-700 mt-1">
-                          Les informations bancaires sont chiffrées et stockées de manière sécurisée. Seul le personnel autorisé peut y accéder.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
                   <div>
                     <h3 className="text-md font-medium text-slate-800 mb-3 flex items-center">
                       <Upload className="w-4 h-4 mr-2 text-slate-600" />
@@ -849,7 +803,7 @@ const NewEmployeeForm: React.FC<NewEmployeeFormProps> = ({ isOpen, onClose, onSa
 
                   <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
                     <div className="flex items-start space-x-3">
-                      <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                      <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
                       <div>
                         <h3 className="font-medium text-green-900">Prêt à ajouter le nouvel employé</h3>
                         <p className="text-sm text-green-700 mt-1">
