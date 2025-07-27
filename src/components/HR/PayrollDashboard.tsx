@@ -7,6 +7,17 @@ const PayrollDashboard: React.FC = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [showCalculator, setShowCalculator] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState<any>(null);
+  const [showNewPayrollModal, setShowNewPayrollModal] = useState(false);
+  const [newPayrollData, setNewPayrollData] = useState({
+    employeeName: '',
+    department: '',
+    position: '',
+    payPeriod: new Date().toISOString().slice(0, 7),
+    baseSalary: 0,
+    overtime: 0,
+    bonuses: 0,
+    deductions: 0
+  });
 
   // Sample data
   const payrollData = {
@@ -74,6 +85,32 @@ const PayrollDashboard: React.FC = () => {
     setTimeout(() => document.body.removeChild(successElement), 3000);
   };
 
+  const handleNewPayrollSave = () => {
+    // Simulate saving new payroll
+    console.log('New payroll created:', newPayrollData);
+    
+    // Reset form
+    setNewPayrollData({
+      employeeName: '',
+      department: '',
+      position: '',
+      payPeriod: new Date().toISOString().slice(0, 7),
+      baseSalary: 0,
+      overtime: 0,
+      bonuses: 0,
+      deductions: 0
+    });
+    
+    setShowNewPayrollModal(false);
+    
+    // Show success message
+    const successElement = document.createElement('div');
+    successElement.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 animate-bounce';
+    successElement.textContent = '✅ Nouvelle paie créée avec succès !';
+    document.body.appendChild(successElement);
+    setTimeout(() => document.body.removeChild(successElement), 3000);
+  };
+
   return (
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
@@ -105,6 +142,13 @@ const PayrollDashboard: React.FC = () => {
           >
             <Calculator className="w-4 h-4 mr-2" />
             Calculateur de Paie
+          </button>
+          <button 
+            onClick={() => setShowNewPayrollModal(true)}
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center hover:bg-blue-700 transition-colors"
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            Nouvelle Paie
           </button>
         </div>
       </div>
