@@ -301,8 +301,10 @@ const NewEventModal: React.FC<NewEventModalProps> = ({
       // Clean up data before submission
       const cleanedData = {
         ...formData,
+        id: Date.now(), // Add unique ID
         attendees: formData.attendees.filter(a => a.trim() !== ''),
-        tags: formData.tags.filter(t => t.trim() !== '')
+        tags: formData.tags.filter(t => t.trim() !== ''),
+        status: 'scheduled' as const
       };
       
       // Simulate API call
@@ -313,9 +315,11 @@ const NewEventModal: React.FC<NewEventModalProps> = ({
         // Reset form after success
         setTimeout(() => {
           if (onSave) onSave(cleanedData);
-          setShowSuccessMessage(false);
-          onClose();
-          if (!isEditing) resetForm();
+          setTimeout(() => {
+            setShowSuccessMessage(false);
+            onClose();
+            if (!isEditing) resetForm();
+          }, 500);
         }, 1500);
       }, 1000);
     } else {
