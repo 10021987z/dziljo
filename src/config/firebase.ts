@@ -11,8 +11,8 @@ const firebaseConfig = {
   projectId: "dzijo-d6fa4",
   storageBucket: "dzijo-d6fa4.firebasestorage.app",
   messagingSenderId: "602787753667",
-  appId: "1:602787753667:web:f590cf7fd2d077955e7c76",
-  measurementId: "G-LRXZJYGTPH"
+  appId: "1:602787753667:web:137e942ca008e0105e7c76",
+  measurementId: "G-HC6C2ET3FS"
 };
 
 // Initialiser Firebase
