@@ -174,3 +174,5 @@ export function requireRole(requiredRole: UserRole['role']) {
     return true;
   };
 }
+
+export { getUserData }
