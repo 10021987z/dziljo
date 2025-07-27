@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   Calendar, Clock, Users, MapPin, Video, Phone, Plus, Edit, Trash2, Bell, 
-  Target, Star, Tag, MessageSquare, Link, FileText, User, Building2, Save, 
+  Target, Star, Tag, MessageSquare, Link, FileText, User, Building2, Save, Mail,
   X, Check, ChevronLeft, ChevronRight
 } from 'lucide-react';
 
