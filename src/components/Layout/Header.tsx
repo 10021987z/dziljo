@@ -103,6 +103,34 @@ const Header: React.FC<HeaderProps> = ({ activeModule }) => {
     setShowTrialWelcome(true);
   };
 
+  // Global keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Ctrl+K for global search
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        setShowQuickActions(true);
+      }
+      // Alt+A for quick actions
+      else if (e.altKey && e.key === 'a') {
+        e.preventDefault();
+        setShowQuickActions(true);
+      }
+      // Alt+E for new event
+      else if (e.altKey && e.key === 'e') {
+        e.preventDefault();
+        setShowNewEvent(true);
+      }
+      // Alt+N for notifications
+      else if (e.altKey && e.key === 'n') {
+        e.preventDefault();
+        setShowNotifications(true);
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   return (
     <>
@@ -129,7 +157,8 @@ const Header: React.FC<HeaderProps> = ({ activeModule }) => {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
               <input
                 type="text"
-                placeholder="Rechercher..."
+                placeholder="Rechercher... (Ctrl+K)"
+                onFocus={() => setShowQuickActions(true)}
                 className="pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
@@ -155,6 +184,7 @@ const Header: React.FC<HeaderProps> = ({ activeModule }) => {
             <button 
               onClick={() => setShowNotifications(true)}
               className="relative p-2 text-slate-400 hover:text-slate-600 transition-colors"
+              title="Notifications (Alt+N)"
             >
               <Bell className="w-5 h-5" />
               {unreadNotifications > 0 && (

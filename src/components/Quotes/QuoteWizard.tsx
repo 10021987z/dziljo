@@ -17,6 +17,8 @@ const QuoteWizard: React.FC<QuoteWizardProps> = ({
   initialData,
   isEditing = false
 }) => {
+  if (!isOpen) return null;
+
   const [formData, setFormData] = useState<Partial<Quote>>({
     title: initialData?.title || '',
     client: initialData?.client || { name: '', email: '' },
@@ -141,14 +143,17 @@ const QuoteWizard: React.FC<QuoteWizardProps> = ({
       const quoteData = {
         ...formData,
         ...totals,
+        id: initialData?.id || Date.now(),
+        number: initialData?.number || `QUO-${Date.now()}`,
+        status: initialData?.status || 'draft',
+        createdDate: initialData?.createdDate || new Date().toISOString().split('T')[0],
         expiryDate: formData.validUntil
       };
 
       onSave(quoteData);
+      onClose();
     }
   };
-
-  if (!isOpen) return null;
 
   const totals = calculateTotals();
 
