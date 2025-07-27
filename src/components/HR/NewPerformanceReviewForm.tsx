@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 import { Save, X, Plus, Trash2, Star, Target, Award, User, Calendar, FileText } from 'lucide-react';
 import { useFirebaseCollection } from '../../hooks/useFirebase';
 
+interface SaveError {
+  message: string;
+  code?: string;
+}
+
 interface Goal {
   id: number;
   title: string;
@@ -77,6 +82,8 @@ const NewPerformanceReviewForm: React.FC<NewPerformanceReviewFormProps> = ({
 
   const [showGoalModal, setShowGoalModal] = useState(false);
   const [showCompetencyModal, setShowCompetencyModal] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
 
   const employees = [
     'Sophie Martin',
@@ -218,6 +225,9 @@ const NewPerformanceReviewForm: React.FC<NewPerformanceReviewFormProps> = ({
   };
 
   const handleSave = async () => {
+    setIsSaving(true);
+    setSaveError(null);
+    
     try {
       const overallScore = calculateOverallScore();
       
@@ -245,6 +255,17 @@ const NewPerformanceReviewForm: React.FC<NewPerformanceReviewFormProps> = ({
       onSave(reviewData);
     } catch (error) {
       console.error('Erreur lors de la sauvegarde:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Une erreur inconnue est survenue';
+      
+      if (errorMessage.includes('Missing or insufficient permissions')) {
+        setSaveError('Permissions insuffisantes. Veuillez contacter votre administrateur pour accéder à cette fonctionnalité.');
+      } else if (errorMessage.includes('offline')) {
+        setSaveError('Connexion internet requise. Veuillez vérifier votre connexion et réessayer.');
+      } else {
+        setSaveError(`Erreur lors de la sauvegarde: ${errorMessage}`);
+      }
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -560,21 +581,54 @@ const NewPerformanceReviewForm: React.FC<NewPerformanceReviewFormProps> = ({
           </div>
         </div>
 
+        {/* Error Message */}
+        {saveError && (
+          <div className="mx-6 mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <X className="w-5 h-5 text-red-400" />
+              </div>
+              <div className="ml-3">
+                <p className="text-sm text-red-800">{saveError}</p>
+              </div>
+              <div className="ml-auto pl-3">
+                <button
+                  onClick={() => setSaveError(null)}
+                  className="inline-flex text-red-400 hover:text-red-600"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Footer */}
         <div className="bg-slate-50 border-t border-slate-200 p-4">
           <div className="flex justify-between">
             <button
               onClick={onClose}
+              disabled={isSaving}
               className="px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-700 hover:bg-slate-100 transition-colors"
             >
               Annuler
             </button>
             <button
               onClick={handleSave}
-              className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors flex items-center"
+              disabled={isSaving}
+              className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <Save className="w-4 h-4 mr-2" />
-              {isEditing ? 'Mettre à jour' : 'Créer l\'Évaluation'}
+              {isSaving ? (
+                <>
+                  <div className="w-4 h-4 mr-2 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  Sauvegarde...
+                </>
+              ) : (
+                <>
+                  <Save className="w-4 h-4 mr-2" />
+                  {isEditing ? 'Mettre à jour' : 'Créer l\'Évaluation'}
+                </>
+              )}
             </button>
           </div>
         </div>
