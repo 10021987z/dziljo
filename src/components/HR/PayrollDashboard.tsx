@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DollarSign, Calendar, TrendingUp, Users, Download, Printer, Calculator, ChevronLeft, ChevronRight, Filter, Search, ArrowUp, ArrowDown, Plus } from 'lucide-react';
+import { DollarSign, Calendar, TrendingUp, Users, Download, Printer, Calculator, ChevronLeft, ChevronRight, Filter, Search, ArrowUp, ArrowDown, Plus, X, Save } from 'lucide-react';
 import PayrollSummaryCard from './PayrollSummaryCard';
 import PayrollCalculator from './PayrollCalculator';
 
@@ -142,6 +142,13 @@ const PayrollDashboard: React.FC = () => {
           >
             <Calculator className="w-4 h-4 mr-2" />
             Calculateur de Paie
+          </button>
+          <button 
+            onClick={() => setShowNewPayrollModal(true)}
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center hover:bg-blue-700 transition-colors"
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            Nouvelle Paie
           </button>
         </div>
       </div>
