@@ -7,11 +7,9 @@ import LeaveManagement from './LeaveManagement';
 import PerformanceManagement from './PerformanceManagement';
 import TrainingManagement from './TrainingManagement';
 import DocumentGeneration from './DocumentGeneration';
-import QuickActions from '../Layout/QuickActions';
 
 const HR: React.FC = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
-  const [showQuickActions, setShowQuickActions] = useState(false);
 
   const tabs = [
     { id: 'dashboard', name: 'Tableau de Bord', icon: BarChart3 },
@@ -58,13 +56,6 @@ const HR: React.FC = () => {
               <div className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
                 Système Opérationnel
               </div>
-              <button 
-                onClick={() => setShowQuickActions(true)}
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center hover:bg-blue-700 transition-colors"
-              >
-                <Zap className="w-4 h-4 mr-2" />
-                Actions Rapides
-              </button>
             </div>
           </div>
 
@@ -92,13 +83,6 @@ const HR: React.FC = () => {
       <div className="flex-1">
         {renderTabContent()}
       </div>
-
-      {/* Quick Actions Modal */}
-      <QuickActions 
-        isOpen={showQuickActions} 
-        onClose={() => setShowQuickActions(false)}
-        activeModule="rh"
-      />
     </div>
   );
 };
