@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { User, Plus, Search, Filter, Edit, Eye, Phone, Mail, MapPin, Calendar, Briefcase, GraduationCap, TrendingUp, FileText, Download, Upload } from 'lucide-react';
 import ExportButtons from '../Common/ExportButtons';
+import NewEmployeeForm from './NewEmployeeForm';
+import { useFirebaseCollection } from '../../hooks/useFirebase';
 
 interface Employee {
   id: number;
@@ -121,12 +123,17 @@ const EmployeeDatabase: React.FC = () => {
   ]);
 
   const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
-  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showNewEmployeeForm, setShowNewEmployeeForm] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterDepartment, setFilterDepartment] = useState('');
   const [activeTab, setActiveTab] = useState('overview');
 
+  const { data: firebaseEmployees, create: createEmployee } = useFirebaseCollection('employees');
+
   const departments = ['Technique', 'Design', 'Commercial', 'RH', 'Administration'];
+
+  // Merge local employees with Firebase employees
+  const allEmployees = [...employees, ...firebaseEmployees];
 
   const filteredEmployees = employees.filter(employee => {
     const matchesSearch = `${employee.firstName} ${employee.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -159,6 +166,15 @@ const EmployeeDatabase: React.FC = () => {
     console.log('Edit employee:', employee);
   };
 
+  const handleSaveEmployee = async (employeeData: any) => {
+    try {
+      await createEmployee(employeeData);
+      // Employee will be automatically added to the list via real-time subscription
+      setShowNewEmployeeForm(false);
+    } catch (error) {
+      console.error('Erreur lors de la sauvegarde:', error);
+    }
+  };
 
   const renderEmployeeDetails = () => {
     if (!selectedEmployee) return null;
@@ -258,7 +274,7 @@ const EmployeeDatabase: React.FC = () => {
         return (
           <div className="space-y-4">
             <div className="flex justify-between items-center">
-              <h4 className="font-medium text-slate-900">Documents</h4>
+                onClick={() => setShowNewEmployeeForm(true)}
               <button className="bg-blue-600 text-white px-3 py-2 rounded-lg text-sm flex items-center hover:bg-blue-700 transition-colors">
                 <Upload className="w-4 h-4 mr-2" />
                 Ajouter Document
@@ -303,7 +319,7 @@ const EmployeeDatabase: React.FC = () => {
             title="Exporter Employés"
           />
           <button 
-            onClick={() => setShowCreateModal(true)}
+            onClick={() => setShowNewEmployeeForm(true)}
             className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center hover:bg-blue-700 transition-colors"
           >
             <Plus className="w-4 h-4 mr-2" />
@@ -536,6 +552,13 @@ const EmployeeDatabase: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* New Employee Form */}
+      <NewEmployeeForm 
+        isOpen={showNewEmployeeForm} 
+        onClose={() => setShowNewEmployeeForm(false)}
+        onSave={handleSaveEmployee}
+      />
 
     </div>
   );

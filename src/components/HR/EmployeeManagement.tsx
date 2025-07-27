@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Users, UserPlus, GraduationCap, TrendingUp, Calendar, FileText } from 'lucide-react';
 import EmployeeDatabase from './EmployeeDatabase';
+import NewEmployeeForm from './NewEmployeeForm';
 import QuickActions from '../Layout/QuickActions';
 
 const EmployeeManagement: React.FC = () => {
@@ -69,17 +70,17 @@ const EmployeeManagement: React.FC = () => {
         </div>
       </div>
 
-      <NewEmployeeForm 
-        isOpen={showNewEmployeeForm} 
-        onClose={() => setShowNewEmployeeForm(false)}
-      />
-
       {/* Quick Actions Modal */}
       <QuickActions 
         isOpen={showQuickActions} 
         onClose={() => setShowQuickActions(false)}
         activeModule="employees"
       />
+
+      {/* Tab Content */}
+      <div className="flex-1">
+        {renderTabContent()}
+      </div>
     </div>
   );
 };

@@ -26,11 +26,19 @@ export class FirebaseService {
   // Collections Firestore
   static readonly COLLECTIONS = {
     USERS: 'users',
+    EMPLOYEES: 'employees',
     PROSPECTS: 'prospects',
     OPPORTUNITIES: 'opportunities',
     CONTRACTS: 'contracts',
     QUOTES: 'quotes',
-    QUOTES: 'quotes',
+    PAYROLL: 'payroll',
+    PERFORMANCE_REVIEWS: 'performance-reviews',
+    LEAVE_REQUESTS: 'leave-requests',
+    TRAININGS: 'trainings',
+    WORKFLOWS: 'workflows',
+    SETTINGS: 'settings',
+    REPORTS: 'reports',
+    ADMIN_USERS: 'admin-users',
     DOCUMENTS: 'documents',
     ACTIVITIES: 'activities',
     NOTIFICATIONS: 'notifications'

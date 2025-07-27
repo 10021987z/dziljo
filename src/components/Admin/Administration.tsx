@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { Settings, FileText, Receipt, ClipboardList, Users, BarChart3, Shield, Database, Link, UserCheck, Zap, Copy, Workflow, Layers } from 'lucide-react';
 import ContractManagement from './ContractManagement';
+import Settings as AdminSettings from './Settings';
+import ReportsManagement from './ReportsManagement';
+import AdminUserManagement from './AdminUserManagement';
+import WorkflowManagement from './WorkflowManagement';
 import QuickActions from '../Layout/QuickActions';
 
 const Administration: React.FC = () => {
@@ -9,6 +13,9 @@ const Administration: React.FC = () => {
 
   const tabs = [
     { id: 'contracts', name: 'Gestion des Contrats', icon: FileText },
+    { id: 'reports', name: 'Rapports', icon: BarChart3 },
+    { id: 'users', name: 'Utilisateurs Admin', icon: UserCheck },
+    { id: 'workflows', name: 'Workflows', icon: Workflow },
     { id: 'settings', name: 'Paramètres', icon: Settings }
   ];
 
@@ -16,20 +23,14 @@ const Administration: React.FC = () => {
     switch (activeTab) {
       case 'contracts':
         return <ContractManagement />;
+      case 'reports':
+        return <ReportsManagement />;
+      case 'users':
+        return <AdminUserManagement />;
+      case 'workflows':
+        return <WorkflowManagement />;
       case 'settings':
-        return (
-          <div className="p-6">
-            <div className="bg-white rounded-xl p-8 shadow-sm border border-slate-200 text-center">
-              <Settings className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-              <h2 className="text-2xl font-bold text-slate-900 mb-4">
-                Paramètres Système
-              </h2>
-              <p className="text-slate-600">
-                Configuration avancée du système - À implémenter
-              </p>
-            </div>
-          </div>
-        );
+        return <AdminSettings />;
       default:
         return <ContractManagement />;
     }

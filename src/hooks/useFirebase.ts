@@ -3,6 +3,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { User, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth } from '../config/firebase';
 import FirebaseService from '../services/firebaseService';
+import { collection, onSnapshot, query, where, orderBy, limit } from 'firebase/firestore';
+import { db } from '../config/firebase';
 
 // Hook pour l'authentification Firebase
 export const useFirebaseAuth = () => {
@@ -50,7 +52,7 @@ export const useFirebaseAuth = () => {
 };
 
 // Hook générique pour les collections Firestore
-export const useFirebaseCollection = (collectionName: string, filters?: any[]) => {
+export const useFirebaseCollection = (collectionName: string, filters?: any[], orderByField?: string) => {
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -59,14 +61,14 @@ export const useFirebaseCollection = (collectionName: string, filters?: any[]) =
     try {
       setLoading(true);
       setError(null);
-      const result = await FirebaseService.getAll(collectionName, filters);
+      const result = await FirebaseService.getAll(collectionName, filters, orderByField);
       setData(result);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Erreur lors du chargement');
     } finally {
       setLoading(false);
     }
-  }, [collectionName, filters]);
+  }, [collectionName, filters, orderByField]);
 
   const create = useCallback(async (newData: any) => {
     try {
@@ -100,15 +102,53 @@ export const useFirebaseCollection = (collectionName: string, filters?: any[]) =
     }
   }, [collectionName]);
 
+  // Real-time subscription
+  const subscribe = useCallback(() => {
+    try {
+      let q = collection(db, collectionName);
+      
+      if (filters && filters.length > 0) {
+        filters.forEach(filter => {
+          q = query(q, where(filter.field, filter.operator, filter.value));
+        });
+      }
+      
+      if (orderByField) {
+        q = query(q, orderBy(orderByField, 'desc'));
+      }
+      
+      const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        const items = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setData(items);
+        setLoading(false);
+      }, (error) => {
+        setError(error.message);
+        setLoading(false);
+      });
+      
+      return unsubscribe;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erreur lors de l\'abonnement');
+      setLoading(false);
+      return () => {};
+    }
+  }, [collectionName, filters, orderByField]);
+
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    // Use real-time subscription by default
+    const unsubscribe = subscribe();
+    return unsubscribe;
+  }, [subscribe]);
 
   return {
     data,
     loading,
     error,
     refetch: fetchData,
+    subscribe,
     create,
     update,
     remove
