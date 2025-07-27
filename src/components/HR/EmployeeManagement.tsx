@@ -2,12 +2,10 @@ import React, { useState } from 'react';
 import { Users, UserPlus, GraduationCap, TrendingUp, Calendar, FileText } from 'lucide-react';
 import EmployeeDatabase from './EmployeeDatabase';
 import NewEmployeeForm from './NewEmployeeForm';
-import QuickActions from '../Layout/QuickActions';
 
 const EmployeeManagement: React.FC = () => {
   const [activeTab, setActiveTab] = useState('database');
   const [showNewEmployeeForm, setShowNewEmployeeForm] = useState(false);
-  const [showQuickActions, setShowQuickActions] = useState(false);
 
   const tabs = [
     { id: 'database', name: 'Base de Données', icon: Users }
@@ -40,13 +38,6 @@ const EmployeeManagement: React.FC = () => {
                 <UserPlus className="w-4 h-4 mr-2" />
                 Nouvel Employé
               </button>
-              <button 
-                onClick={() => setShowQuickActions(true)}
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center hover:bg-blue-700 transition-colors"
-              >
-                <UserPlus className="w-4 h-4 mr-2" />
-                Actions Rapides
-              </button>
             </div>
           </div>
 
@@ -69,13 +60,6 @@ const EmployeeManagement: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* Quick Actions Modal */}
-      <QuickActions 
-        isOpen={showQuickActions} 
-        onClose={() => setShowQuickActions(false)}
-        activeModule="employees"
-      />
 
       {/* Tab Content */}
       <div className="flex-1">
