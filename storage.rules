@@ -1,0 +1,55 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Fonction pour vérifier l'authentification
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Fonction pour vérifier le rôle
+    function hasRole(role) {
+      return isAuthenticated() && 
+             firestore.get(/databases/(default)/documents/utilisateurs/$(request.auth.uid)).data.role == role;
+    }
+    
+    // Fonction pour vérifier l'appartenance à l'entreprise
+    function belongsToCompany(entrepriseId) {
+      return isAuthenticated() && 
+             firestore.get(/databases/(default)/documents/utilisateurs/$(request.auth.uid)).data.entrepriseId == entrepriseId;
+    }
+    
+    // Documents d'entreprise
+    match /entreprises/{entrepriseId}/{allPaths=**} {
+      allow read: if belongsToCompany(entrepriseId);
+      allow write: if belongsToCompany(entrepriseId) && 
+                      (hasRole('admin') || hasRole('rh') || hasRole('commercial'));
+    }
+    
+    // Documents RH (CV, contrats, etc.)
+    match /hr/{entrepriseId}/{allPaths=**} {
+      allow read: if belongsToCompany(entrepriseId);
+      allow write: if belongsToCompany(entrepriseId) && 
+                      (hasRole('admin') || hasRole('rh'));
+    }
+    
+    // Documents commerciaux (devis, contrats clients)
+    match /commercial/{entrepriseId}/{allPaths=**} {
+      allow read: if belongsToCompany(entrepriseId);
+      allow write: if belongsToCompany(entrepriseId) && 
+                      (hasRole('admin') || hasRole('commercial'));
+    }
+    
+    // Documents comptables
+    match /comptabilite/{entrepriseId}/{allPaths=**} {
+      allow read: if belongsToCompany(entrepriseId);
+      allow write: if belongsToCompany(entrepriseId) && 
+                      (hasRole('admin') || hasRole('comptable'));
+    }
+    
+    // Avatars utilisateurs
+    match /avatars/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated() && request.auth.uid == userId;
+    }
+  }
+}

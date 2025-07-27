@@ -1,0 +1,93 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Fonction pour vérifier si l'utilisateur est authentifié
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Fonction pour vérifier le rôle de l'utilisateur
+    function hasRole(role) {
+      return isAuthenticated() && 
+             get(/databases/$(database)/documents/utilisateurs/$(request.auth.uid)).data.role == role;
+    }
+    
+    // Fonction pour vérifier si l'utilisateur appartient à l'entreprise
+    function belongsToCompany(entrepriseId) {
+      return isAuthenticated() && 
+             get(/databases/$(database)/documents/utilisateurs/$(request.auth.uid)).data.entrepriseId == entrepriseId;
+    }
+    
+    // Règles pour les entreprises
+    match /entreprises/{entrepriseId} {
+      allow read, write: if hasRole('admin') || belongsToCompany(entrepriseId);
+      
+      // Sous-collections de l'entreprise
+      match /collaborateurs/{collabId} {
+        allow read: if belongsToCompany(entrepriseId);
+        allow write: if hasRole('admin') || hasRole('rh');
+      }
+      
+      match /recrutements/{recrutementId} {
+        allow read: if belongsToCompany(entrepriseId);
+        allow write: if hasRole('admin') || hasRole('rh');
+      }
+      
+      match /contrats/{contratId} {
+        allow read: if belongsToCompany(entrepriseId);
+        allow write: if hasRole('admin') || hasRole('commercial');
+      }
+      
+      match /clients/{clientId} {
+        allow read: if belongsToCompany(entrepriseId);
+        allow write: if hasRole('admin') || hasRole('commercial');
+      }
+      
+      match /prospects/{prospectId} {
+        allow read: if belongsToCompany(entrepriseId);
+        allow write: if hasRole('admin') || hasRole('commercial');
+      }
+      
+      match /devis/{devisId} {
+        allow read: if belongsToCompany(entrepriseId);
+        allow write: if hasRole('admin') || hasRole('commercial');
+      }
+      
+      match /factures/{factureId} {
+        allow read: if belongsToCompany(entrepriseId);
+        allow write: if hasRole('admin') || hasRole('comptable');
+      }
+      
+      match /transactions/{txnId} {
+        allow read: if belongsToCompany(entrepriseId);
+        allow write: if hasRole('admin') || hasRole('comptable');
+      }
+      
+      match /comptabilite/{periodeId} {
+        allow read: if belongsToCompany(entrepriseId);
+        allow write: if hasRole('admin') || hasRole('comptable');
+      }
+    }
+    
+    // Règles pour les utilisateurs
+    match /utilisateurs/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+      allow read: if hasRole('admin');
+    }
+    
+    // Règles pour les documents
+    match /documents/{docId} {
+      allow read: if isAuthenticated() && 
+                     belongsToCompany(resource.data.entrepriseId);
+      allow write: if isAuthenticated() && 
+                      belongsToCompany(resource.data.entrepriseId);
+    }
+    
+    // Règles pour les notifications
+    match /notifications/{notifId} {
+      allow read: if isAuthenticated() && 
+                     request.auth.uid == resource.data.userId;
+      allow write: if hasRole('admin');
+    }
+  }
+}

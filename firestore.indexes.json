@@ -1,0 +1,77 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "collaborateurs",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "entrepriseId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "status",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "prospects",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "entrepriseId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "status",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "temperature",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "factures",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "entrepriseId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "status",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "dueDate",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "transactions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "entrepriseId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "date",
+          "order": "DESCENDING"
+        },
+        {
+          "fieldPath": "type",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
