@@ -1,5 +1,5 @@
 import React from 'react';
-import { Users, TrendingUp, Settings, Home, UserPlus, FileText, Calendar, BarChart3, Contact as FileContract, Receipt, ClipboardList, Building2 } from 'lucide-react';
+import { Users, TrendingUp, Settings, Home, UserPlus, FileText, Calendar, BarChart3, Contact as FileContract, Receipt, ClipboardList, Building2, CreditCard } from 'lucide-react';
 
 interface SidebarProps {
   activeModule: string;
@@ -9,6 +9,7 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ activeModule, setActiveModule }) => {
   const modules = [
     { id: 'dashboard', name: 'Tableau de Bord', icon: Home },
+    { id: 'pricing', name: 'Tarification', icon: CreditCard },
     { 
       id: 'rh', 
       name: 'Ressources Humaines', 

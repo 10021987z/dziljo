@@ -8,6 +8,7 @@ import Administration from './components/Admin/Administration';
 import AnalyticalAccounting from './components/AnalyticalAccounting/AnalyticalAccounting';
 import FloatingActionButton from './components/Layout/FloatingActionButton';
 import FirebaseSync from './components/Firebase/FirebaseSync';
+import PricingPage from './components/Pricing/PricingPage';
 
 function App() {
   const [activeModule, setActiveModule] = useState('dashboard');
@@ -16,6 +17,8 @@ function App() {
     switch (activeModule) {
       case 'dashboard':
         return <Dashboard />;
+      case 'pricing':
+        return <PricingPage />;
       case 'rh':
       case 'recruitment':
       case 'employees':
