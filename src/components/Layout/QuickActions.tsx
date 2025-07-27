@@ -1,20 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { 
-  Zap, UserPlus, FileText, DollarSign, Calendar, MessageCircle, 
-  Target, TrendingUp, Mail, Phone, Video, Plus, X, Search,
-  Users, Briefcase, Award, Clock, CheckCircle, Star, Heart, Coffee,
-  Building2, Edit, Download, Upload, Settings, Shield, Database,
-  BarChart3, PieChart, Activity, Workflow, Link, Key, Bell, Eye,
-  Trash2, Copy, Archive, Send, Filter, Tag, Bookmark, Flag,
-  Globe, Smartphone, Wifi, Monitor, Volume2, VolumeX, Sun, Moon,
-  Palette, Type, Hash, List, AlignLeft, Image, Paperclip, Mic,
-  Camera, Map, Navigation, Compass, Layers, Grid, Layout, Maximize,
-  Minimize, RotateCcw, RefreshCw, Save, Share2, ExternalLink,
-  Printer, Scanner, Headphones, Speaker, Battery, Cpu, HardDrive,
-  Memory, Network, Server, Cloud, CloudOff, Wifi as WifiIcon,
-  Bluetooth, Usb, Power, Zap as Lightning, Flame, Droplets, Wind,
-  Thermometer, Gauge, Timer, Stopwatch, Alarm, Watch, Calendar as CalendarIcon
-} from 'lucide-react';
+import { Zap, UserPlus, FileText, DollarSign, Calendar, MessageCircle, Target, TrendingUp, Mail, Phone, Video, Plus, X, Search, Users, Briefcase, Award, Clock, CheckCircle, Star, Heart, Coffee, Building2, Edit, Download, Upload, Settings, Shield, Database, BarChart3, PieChart, Activity, Workflow, Link, Key, Bell, Eye, Trash2, Copy, Archive, Send, Filter, Tag, Bookmark, Flag, Globe, Smartphone, Wifi, Monitor, Volume2, VolumeX, Sun, Moon, Palette, Type, Hash, List, AlignLeft, Image, Paperclip, Mic, Camera, Map, Navigation, Compass, Layers, Grid, Layout, Maximize, Minimize, RotateCcw, RefreshCw, Save, Share2, ExternalLink, Printer, Scan as Scanner, Headphones, Speaker, Battery, Cpu, HardDrive, MemoryStick as Memory, Network, Server, Cloud, CloudOff, Wifi as WifiIcon, Bluetooth, Usb, Power, Zap as Lightning, Flame, Droplets, Wind, Thermometer, Gauge, Timer, Watch as Stopwatch, AlarmPlus as Alarm, Watch, Calendar as CalendarIcon } from 'lucide-react';
 import NewEventModal from '../Commercial/NewEventModal';
 import NewEmployeeForm from '../HR/NewEmployeeForm';
 import QuoteWizard from '../Quotes/QuoteWizard';
