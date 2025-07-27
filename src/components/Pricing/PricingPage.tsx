@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
+import SignupModal from '../Auth/SignupModal';
 import { Check, X, Star, Shield, Zap, Users, BarChart3, Settings, ArrowRight, ChevronDown, ChevronUp } from 'lucide-react';
 
 const PricingPage: React.FC = () => {
   const [isAnnual, setIsAnnual] = useState(false);
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
+  const [showSignupModal, setShowSignupModal] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState('Pro');
+
 
   const plans = [
     {
@@ -130,6 +134,12 @@ const PricingPage: React.FC = () => {
     return savings;
   };
 
+  const handlePlanSelect = (planName: string) => {
+    setSelectedPlan(planName);
+    setShowSignupModal(true);
+  };
+
+
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       {/* Hero Section */}
@@ -235,6 +245,7 @@ const PricingPage: React.FC = () => {
                       ? 'bg-white text-gray-900 hover:bg-gray-100'
                       : 'bg-gray-700 text-white hover:bg-gray-600'
                   }`}
+                  onClick={() => handlePlanSelect(plan.name)}
                 >
                   {plan.cta}
                 </button>
@@ -386,11 +397,24 @@ const PricingPage: React.FC = () => {
 
       {/* Sticky CTA for Mobile */}
       <div className="fixed bottom-0 left-0 right-0 bg-blue-600 p-4 md:hidden z-50 shadow-2xl">
-        <button className="w-full bg-white text-blue-600 font-bold py-3 px-6 rounded-xl flex items-center justify-center">
+        <button 
+          onClick={() => handlePlanSelect('Pro')}
+          className="w-full bg-white text-blue-600 font-bold py-3 px-6 rounded-xl flex items-center justify-center">
           Démarrer l'essai gratuit
           <ArrowRight className="w-5 h-5 ml-2" />
         </button>
       </div>
+
+      {/* Signup Modal */}
+      <SignupModal
+        isOpen={showSignupModal}
+        onClose={() => setShowSignupModal(false)}
+        selectedPlan={selectedPlan}
+        onSuccess={() => {
+          setShowSignupModal(false);
+          // Redirect to trial welcome or dashboard
+        }}
+      />
     </div>
   );
 };

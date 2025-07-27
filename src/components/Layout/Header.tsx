@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Bell, Search, User, ChevronDown, Zap, Calendar } from 'lucide-react';
+import TrialTracker from '../Auth/TrialTracker';
+import TrialWelcome from '../Auth/TrialWelcome';
 import NotificationCenter from './NotificationCenter';
 import UserProfile from '../User/UserProfile';
 import UserSettings from '../User/UserSettings';
@@ -21,6 +23,12 @@ const Header: React.FC<HeaderProps> = ({ activeModule }) => {
   const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false);
   const [showQuickActions, setShowQuickActions] = useState(false);
   const [showNewEvent, setShowNewEvent] = useState(false);
+  const [showTrialTracker, setShowTrialTracker] = useState(true);
+  const [showTrialWelcome, setShowTrialWelcome] = useState(false);
+  const [daysRemaining, setDaysRemaining] = useState(25); // Simulate trial days
+
+  // Simulate user in trial
+  const isInTrial = daysRemaining > 0;
 
   const getModuleTitle = (module: string) => {
     const titles: { [key: string]: string } = {
@@ -78,8 +86,28 @@ const Header: React.FC<HeaderProps> = ({ activeModule }) => {
     setTimeout(() => document.body.removeChild(successElement), 3000);
   };
 
+  const handleUpgrade = () => {
+    // Simulate upgrade process
+    alert('Redirection vers la page de paiement...');
+  };
+
+  const handleTrialWelcome = () => {
+    setShowTrialWelcome(true);
+  };
+
+
   return (
     <>
+      {/* Trial Tracker */}
+      {isInTrial && (
+        <TrialTracker
+          isVisible={showTrialTracker}
+          onClose={() => setShowTrialTracker(false)}
+          daysRemaining={daysRemaining}
+          onUpgrade={handleUpgrade}
+        />
+      )}
+
       <header className="bg-white border-b border-slate-200 px-6 py-4">
         <div className="flex items-center justify-between">
           <div>
@@ -239,6 +267,17 @@ const Header: React.FC<HeaderProps> = ({ activeModule }) => {
         isOpen={showNewEvent}
         onClose={() => setShowNewEvent(false)}
         onSave={handleCreateEvent}
+      />
+
+      {/* Trial Welcome Modal */}
+      <TrialWelcome
+        isOpen={showTrialWelcome}
+        onClose={() => setShowTrialWelcome(false)}
+        userInfo={{
+          firstName: 'Sophie',
+          company: 'Mon Entreprise',
+          plan: 'Pro'
+        }}
       />
 
       {/* Overlay to close dropdowns */}
