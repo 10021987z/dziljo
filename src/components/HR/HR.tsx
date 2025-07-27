@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 import { Users, UserPlus, GraduationCap, TrendingUp, Calendar, FileText, Award, DollarSign, BarChart3, Clock, Zap } from 'lucide-react';
 import HRDashboard from './HRDashboard';
 import EmployeeManagement from './EmployeeManagement';
+import PayrollManagement from './PayrollManagement';
+import LeaveManagement from './LeaveManagement';
+import PerformanceManagement from './PerformanceManagement';
+import TrainingManagement from './TrainingManagement';
+import DocumentGeneration from './DocumentGeneration';
 import QuickActions from '../Layout/QuickActions';
 
 const HR: React.FC = () => {
@@ -11,6 +16,11 @@ const HR: React.FC = () => {
   const tabs = [
     { id: 'dashboard', name: 'Tableau de Bord', icon: BarChart3 },
     { id: 'employees', name: 'Gestion du Personnel', icon: Users },
+    { id: 'payroll', name: 'Paie', icon: DollarSign },
+    { id: 'leave', name: 'Congés', icon: Calendar },
+    { id: 'performance', name: 'Performance', icon: Award },
+    { id: 'training', name: 'Formation', icon: GraduationCap },
+    { id: 'documents', name: 'Documents', icon: FileText }
   ];
 
   const renderTabContent = () => {
@@ -19,6 +29,16 @@ const HR: React.FC = () => {
         return <HRDashboard />;
       case 'employees':
         return <EmployeeManagement />;
+      case 'payroll':
+        return <PayrollManagement />;
+      case 'leave':
+        return <LeaveManagement />;
+      case 'performance':
+        return <PerformanceManagement />;
+      case 'training':
+        return <TrainingManagement />;
+      case 'documents':
+        return <DocumentGeneration />;
       default:
         return <HRDashboard />;
     }
