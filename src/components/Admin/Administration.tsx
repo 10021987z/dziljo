@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Settings, FileText, Receipt, ClipboardList, Users, BarChart3, Shield, Database, Link, UserCheck, Zap, Copy, Workflow, Layers } from 'lucide-react';
 import ContractManagement from './ContractManagement';
-import Settings as AdminSettings from './Settings';
+import AdminSettings from './Settings';
 import ReportsManagement from './ReportsManagement';
 import AdminUserManagement from './AdminUserManagement';
 import WorkflowManagement from './WorkflowManagement';
