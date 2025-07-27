@@ -116,7 +116,7 @@ const QuickActions: React.FC<QuickActionsProps> = ({ isOpen, onClose, activeModu
       id: 'request-leave',
       name: 'Demander un Congé',
       description: 'Soumettre une demande de congé',
-      icon: Calendar,
+      icon: CalendarIcon,
       category: 'hr',
       module: 'hr',
       action: () => {
@@ -190,7 +190,7 @@ const QuickActions: React.FC<QuickActionsProps> = ({ isOpen, onClose, activeModu
       id: 'schedule-meeting',
       name: 'Planifier un RDV',
       description: 'Ajouter un rendez-vous commercial',
-      icon: Calendar,
+      icon: CalendarIcon,
       category: 'commercial',
       module: 'commercial',
       action: () => setShowNewEvent(true),
