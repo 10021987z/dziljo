@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { TrendingUp, Users, Calendar, BarChart3, Target, Building2, Zap, FileText } from 'lucide-react';
+import { TrendingUp, Users, Calendar, BarChart3, Target, Building2, FileText } from 'lucide-react';
 import ProspectManagement from './ProspectManagement';
-import QuickActions from '../Layout/QuickActions';
 
 const Commercial: React.FC = () => {
   const [activeTab, setActiveTab] = useState('prospects');
-  const [showQuickActions, setShowQuickActions] = useState(false);
 
   const tabs = [
     { id: 'prospects', name: 'Prospection', icon: Building2 },
@@ -30,13 +28,6 @@ const Commercial: React.FC = () => {
               <h1 className="text-2xl font-bold text-slate-900">Interface Commerciale</h1>
               <p className="text-slate-600">Votre moteur de croissance commercial intégré</p>
             </div>
-            <button 
-              onClick={() => setShowQuickActions(true)}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center hover:bg-blue-700 transition-colors"
-            >
-              <Zap className="w-4 h-4 mr-2" />
-              Actions Rapides
-            </button>
           </div>
 
           {/* Tab Navigation */}
@@ -63,13 +54,6 @@ const Commercial: React.FC = () => {
       <div className="flex-1">
         {renderTabContent()}
       </div>
-
-      {/* Quick Actions Modal */}
-      <QuickActions 
-        isOpen={showQuickActions} 
-        onClose={() => setShowQuickActions(false)}
-        activeModule="commercial"
-      />
     </div>
   );
 };
