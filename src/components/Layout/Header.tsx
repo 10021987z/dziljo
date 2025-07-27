@@ -75,8 +75,16 @@ const Header: React.FC<HeaderProps> = ({ activeModule }) => {
 
   const handleCreateEvent = (eventData: any) => {
     console.log('Event created from header:', eventData);
-    // In a real app, you would dispatch this to your state management
-    // or make an API call to save the event
+    
+    // Add event to localStorage for persistence (simulation)
+    const existingEvents = JSON.parse(localStorage.getItem('dziljo-events') || '[]');
+    const newEvent = {
+      ...eventData,
+      id: Date.now(),
+      createdAt: new Date().toISOString()
+    };
+    existingEvents.push(newEvent);
+    localStorage.setItem('dziljo-events', JSON.stringify(existingEvents));
     
     // Show success notification
     const successElement = document.createElement('div');
