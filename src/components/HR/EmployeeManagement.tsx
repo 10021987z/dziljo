@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import { Users, UserPlus, GraduationCap, TrendingUp, Calendar, FileText } from 'lucide-react';
 import EmployeeDatabase from './EmployeeDatabase';
-import LeaveManagement from './LeaveManagement';
-import TrainingManagement from './TrainingManagement';
-import CareerProgression from './CareerProgression';
-import NewEmployeeForm from './NewEmployeeForm';
 import QuickActions from '../Layout/QuickActions';
 
 const EmployeeManagement: React.FC = () => {
@@ -13,22 +9,13 @@ const EmployeeManagement: React.FC = () => {
   const [showQuickActions, setShowQuickActions] = useState(false);
 
   const tabs = [
-    { id: 'database', name: 'Base de Données', icon: Users },
-    { id: 'leave', name: 'Congés & Absences', icon: Calendar },
-    { id: 'training', name: 'Formations', icon: GraduationCap },
-    { id: 'career', name: 'Évolution de Carrière', icon: TrendingUp }
+    { id: 'database', name: 'Base de Données', icon: Users }
   ];
 
   const renderTabContent = () => {
     switch (activeTab) {
       case 'database':
         return <EmployeeDatabase />;
-      case 'leave':
-        return <LeaveManagement />;
-      case 'training':
-        return <TrainingManagement />;
-      case 'career':
-        return <CareerProgression />;
       default:
         return <EmployeeDatabase />;
     }
@@ -82,12 +69,6 @@ const EmployeeManagement: React.FC = () => {
         </div>
       </div>
 
-      {/* Tab Content */}
-      <div className="flex-1">
-        {renderTabContent()}
-      </div>
-
-      {/* New Employee Form Modal */}
       <NewEmployeeForm 
         isOpen={showNewEmployeeForm} 
         onClose={() => setShowNewEmployeeForm(false)}

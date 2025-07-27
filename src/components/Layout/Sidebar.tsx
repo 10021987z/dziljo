@@ -14,21 +14,11 @@ const Sidebar: React.FC<SidebarProps> = ({ activeModule, setActiveModule }) => {
       id: 'rh', 
       name: 'Ressources Humaines', 
       icon: Users,
-      subItems: [
-        { id: 'recruitment', name: 'Recrutement', icon: UserPlus },
-        { id: 'employees', name: 'Dossiers Personnel', icon: FileText },
-        { id: 'documents', name: 'Documents RH', icon: FileContract }
-      ]
     },
     { 
       id: 'commercial', 
       name: 'Commercial', 
       icon: TrendingUp,
-      subItems: [
-        { id: 'leads', name: 'Prospection', icon: Building2 },
-        { id: 'opportunities', name: 'Opportunités', icon: BarChart3 },
-        { id: 'calendar', name: 'Agenda', icon: Calendar }
-      ]
     },
     { 
       id: 'analytical', 
@@ -39,11 +29,6 @@ const Sidebar: React.FC<SidebarProps> = ({ activeModule, setActiveModule }) => {
       id: 'admin', 
       name: 'Administration', 
       icon: Settings,
-      subItems: [
-        { id: 'contracts', name: 'Contrats', icon: FileContract },
-        { id: 'invoicing', name: 'Facturation', icon: Receipt },
-        { id: 'reports', name: 'Comptes Rendus', icon: ClipboardList }
-      ]
     }
   ];
 
@@ -75,25 +60,6 @@ const Sidebar: React.FC<SidebarProps> = ({ activeModule, setActiveModule }) => {
               <module.icon className="w-5 h-5 mr-3" />
               {module.name}
             </button>
-            
-            {module.subItems && (activeModule === module.id || isSubItemActive(module.id)) && (
-              <div className="ml-4 mt-2 space-y-1">
-                {module.subItems.map((subItem) => (
-                  <button
-                    key={subItem.id}
-                    onClick={() => setActiveModule(subItem.id)}
-                    className={`w-full flex items-center px-4 py-2 text-sm rounded transition-colors duration-200 ${
-                      activeModule === subItem.id
-                        ? 'text-blue-400 bg-slate-800'
-                        : 'text-slate-400 hover:text-blue-400 hover:bg-slate-800'
-                    }`}
-                  >
-                    <subItem.icon className="w-4 h-4 mr-3" />
-                    {subItem.name}
-                  </button>
-                ))}
-              </div>
-            )}
           </div>
         ))}
       </nav>

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Plus, Edit, Eye, Download, Upload, Search, Filter, FileText, Clock, CheckCircle, AlertCircle, XCircle, Users, Calendar, FileSignature as Signature, Archive, Send, Copy } from 'lucide-react';
 import TemplateLibrary from './TemplateLibrary';
-import TemplateCreator from './TemplateCreator';
 
 interface ContractTemplate {
   id: number;

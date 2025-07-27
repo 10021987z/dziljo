@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import { TrendingUp, Users, Calendar, BarChart3, Target, Building2, Zap, FileText } from 'lucide-react';
 import ProspectManagement from './ProspectManagement';
-import SalesOpportunities from './SalesOpportunities';
-import QuoteManagement from '../Quotes/QuoteManagement';
-import CommercialCalendar from './CommercialCalendar';
-import CommercialKPIs from './CommercialKPIs';
 import QuickActions from '../Layout/QuickActions';
 
 const Commercial: React.FC = () => {
@@ -13,24 +9,12 @@ const Commercial: React.FC = () => {
 
   const tabs = [
     { id: 'prospects', name: 'Prospection', icon: Building2 },
-    { id: 'opportunities', name: 'Opportunités', icon: Target },
-    { id: 'quotes', name: 'Devis Intelligents', icon: FileText },
-    { id: 'calendar', name: 'Agenda', icon: Calendar },
-    { id: 'kpis', name: 'KPI & Analytics', icon: BarChart3 }
   ];
 
   const renderTabContent = () => {
     switch (activeTab) {
       case 'prospects':
         return <ProspectManagement />;
-      case 'opportunities':
-        return <SalesOpportunities />;
-      case 'quotes':
-        return <QuoteManagement />;
-      case 'calendar':
-        return <CommercialCalendar />;
-      case 'kpis':
-        return <CommercialKPIs />;
       default:
         return <ProspectManagement />;
     }

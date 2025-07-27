@@ -1,15 +1,7 @@
 import React, { useState } from 'react';
 import { Settings, FileText, Receipt, ClipboardList, Users, BarChart3, Shield, Database, Link, UserCheck, Zap, Copy, Workflow, Layers } from 'lucide-react';
 import ContractManagement from './ContractManagement';
-import InvoiceManagement from './InvoiceManagement';
-import ReportsManagement from './ReportsManagement';
-import UserManagement from './UserManagement';
-import CRMIntegrations from './CRMIntegrations';
-import AdminUserManagement from './AdminUserManagement';
 import QuickActions from '../Layout/QuickActions';
-import TemplateLibrary from './TemplateLibrary';
-import DocumentGenerator from './DocumentGenerator';
-import WorkflowManagement from './WorkflowManagement';
 
 const Administration: React.FC = () => {
   const [activeTab, setActiveTab] = useState('contracts');
@@ -17,14 +9,6 @@ const Administration: React.FC = () => {
 
   const tabs = [
     { id: 'contracts', name: 'Gestion des Contrats', icon: FileText },
-    { id: 'templates', name: 'Bibliothèque de Modèles', icon: Copy },
-    { id: 'documents', name: 'Générateur de Documents', icon: FileText },
-    { id: 'invoicing', name: 'Facturation', icon: Receipt },
-    { id: 'reports', name: 'Rapports', icon: ClipboardList },
-    { id: 'users', name: 'Utilisateurs', icon: Users },
-    { id: 'admin-users', name: 'Utilisateurs Admin', icon: UserCheck },
-    { id: 'integrations', name: 'Intégrations CRM', icon: Link },
-    { id: 'workflows', name: 'Workflows', icon: Workflow },
     { id: 'settings', name: 'Paramètres', icon: Settings }
   ];
 
@@ -32,22 +16,6 @@ const Administration: React.FC = () => {
     switch (activeTab) {
       case 'contracts':
         return <ContractManagement />;
-      case 'templates':
-        return <TemplateLibrary />;
-      case 'documents':
-        return <DocumentGenerator />;
-      case 'invoicing':
-        return <InvoiceManagement />;
-      case 'reports':
-        return <ReportsManagement />;
-      case 'users':
-        return <UserManagement />;
-      case 'admin-users':
-        return <AdminUserManagement />;
-      case 'integrations':
-        return <CRMIntegrations />;
-      case 'workflows':
-        return <WorkflowManagement />;
       case 'settings':
         return (
           <div className="p-6">
