@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { User, Plus, Search, Filter, Edit, Eye, Phone, Mail, MapPin, Calendar, Briefcase, GraduationCap, TrendingUp, FileText, Download, Upload } from 'lucide-react';
 import ExportButtons from '../Common/ExportButtons';
-import EditEmployeeForm from './EditEmployeeForm';
 
 interface Employee {
   id: number;
@@ -123,8 +122,6 @@ const EmployeeDatabase: React.FC = () => {
 
   const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [employeeToEdit, setEmployeeToEdit] = useState<Employee | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterDepartment, setFilterDepartment] = useState('');
   const [activeTab, setActiveTab] = useState('overview');
@@ -158,24 +155,10 @@ const EmployeeDatabase: React.FC = () => {
   };
 
   const handleEditEmployee = (employee: Employee) => {
-    setEmployeeToEdit(employee);
-    setShowEditModal(true);
+    // TODO: Implement edit functionality
+    console.log('Edit employee:', employee);
   };
 
-  const handleUpdateEmployee = (updatedEmployee: Employee) => {
-    setEmployees(prev => 
-      prev.map(emp => emp.id === updatedEmployee.id ? updatedEmployee : emp)
-    );
-    setShowEditModal(false);
-    setEmployeeToEdit(null);
-    
-    // Show success message
-    const successElement = document.createElement('div');
-    successElement.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 animate-bounce';
-    successElement.textContent = '✅ Employé mis à jour avec succès !';
-    document.body.appendChild(successElement);
-    setTimeout(() => document.body.removeChild(successElement), 3000);
-  };
 
   const renderEmployeeDetails = () => {
     if (!selectedEmployee) return null;
@@ -554,18 +537,6 @@ const EmployeeDatabase: React.FC = () => {
         </div>
       )}
 
-      {/* Edit Employee Modal */}
-      {showEditModal && employeeToEdit && (
-        <EditEmployeeForm
-          isOpen={showEditModal}
-          onClose={() => {
-            setShowEditModal(false);
-            setEmployeeToEdit(null);
-          }}
-          onSave={handleUpdateEmployee}
-          employee={employeeToEdit}
-        />
-      )}
     </div>
   );
 };
